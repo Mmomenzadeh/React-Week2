@@ -7,6 +7,7 @@ class Product extends Component {
   }
   render() {
     return (
+
       <div className="product-container">
         <p>Name : {this.props.Productitem.name}</p>
         <p> Price : {this.props.Productitem.price}</p>

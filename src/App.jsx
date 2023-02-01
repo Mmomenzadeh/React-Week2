@@ -22,8 +22,9 @@ class App extends React.Component {
         price: 50,
       },
     ],
-    showProduct: true,
+    showProduct: false,
     showMain: true,
+    auth : false
   };
   toggle = () => {
     const show = this.state.showProduct;
@@ -49,6 +50,10 @@ class App extends React.Component {
   componentWillUnmount() {
     console.log("componentWillUnmount");
   }
+
+  loginHandler = ()=>{
+    this.setState({auth : true})
+  }
   render() {
     let product = null;
     if (this.state.showProduct) {
@@ -59,6 +64,7 @@ class App extends React.Component {
               products={this.state.products}
               changeTitleHandler={this.changeTitleHandler}
               deleteBtn={this.deleteBtn}
+     
             />
           }
         </div>
@@ -67,11 +73,11 @@ class App extends React.Component {
 
     return (
       <div className="app">
-        <button onClick={() => this.setState({ showMain: false })}>
+        <button className="btn-app" onClick={() => this.setState({ showMain: false })}>
           Remove main
         </button>
         {this.state.showMain ? (
-          <Main toggle={this.toggle} products={this.state.products} />
+          <Main toggle={this.toggle} products={this.state.products} loginHandler={this.loginHandler} isAuth={this.state.auth} />
         ) : null}
         {product}
       </div>
