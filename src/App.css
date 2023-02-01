@@ -1,0 +1,27 @@
+.app{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+   margin-top: 50px;
+   gap: 20px;
+    
+}
+
+
+
+.btn-app{
+    background-color: rgba(245, 19, 245, 0.997);
+    padding: 10px;
+    border: none;
+    border-radius: 15px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.list{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+   margin-top: 50px;
+   gap: 20px;
+}
