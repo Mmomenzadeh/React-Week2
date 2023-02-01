@@ -1,18 +1,37 @@
-import React from "react";
-import "./product.css"
+import React, { Component } from "react";
+import "./product.css";
 
-const Product = ({Productitem , deleteBtn})=>{
-
-    return(
-        <div className="product-container">
-            <p>Name : {Productitem.name}</p>
-            <p> Price : {Productitem.price}</p>
-            <input type="text" />
-            <br /><br />
-            <button className="btn-delete" onClick={()=>deleteBtn(Productitem.id)}>Delete</button>
-        </div>
-    )
+class Product extends Component {
+  componentDidMount() {
+    this.ElementInput.focus();
+  }
+  render() {
+    return (
+      <div className="product-container">
+        <p>Name : {this.props.Productitem.name}</p>
+        <p> Price : {this.props.Productitem.price}</p>
+        <input
+          ref={(element) => (this.ElementInput = element)}
+          type="text"
+          onChange={(e) =>
+            this.props.changeTitleHandler(
+              e.target.value,
+              this.props.Productitem.id
+            )
+          }
+          value={this.props.Productitem.name}
+        />
+        <br />
+        <br />
+        <button
+          className="btn-delete"
+          onClick={() => this.props.deleteBtn(this.props.Productitem.id)}
+        >
+          Delete
+        </button>
+      </div>
+    );
+  }
 }
 
-
-export default Product
+export default Product;

@@ -1,6 +1,7 @@
 import React from "react";
-import Product from "./compopnent/Product/Product";
 import "./App.css";
+import Main from "./compopnent/Main/Main";
+import ProductList from "./compopnent/ProductList/ProductList";
 
 class App extends React.Component {
   state = {
@@ -21,38 +22,57 @@ class App extends React.Component {
         price: 50,
       },
     ],
-    showProduct: false,
+    showProduct: true,
+    showMain: true,
   };
   toggle = () => {
     const show = this.state.showProduct;
     this.setState({ showProduct: !show });
   };
 
-  deleteBtn =(id)=>{
-    const findIndex = this.state.products.findIndex((item)=> (item.id === id))
-    const productsitem = [...this.state.products]
-     productsitem.splice(findIndex,1)
-    this.setState({products : productsitem})
+  deleteBtn = (id) => {
+    const findIndex = this.state.products.findIndex((item) => item.id === id);
+    const productsitem = [...this.state.products];
+    productsitem.splice(findIndex, 1);
+    this.setState({ products: productsitem });
+  };
+  changeTitleHandler = (inputValue, id) => {
+    const productIndex = this.state.products.findIndex(
+      (item) => item.id === id
+    );
+    const ProductCopywithIndex = { ...this.state.products[productIndex] };
+    ProductCopywithIndex.name = inputValue;
+    const ProductsCopy = [...this.state.products];
+    ProductsCopy[productIndex] = ProductCopywithIndex;
+    this.setState({ products: ProductsCopy });
+  };
+  componentWillUnmount() {
+    console.log("componentWillUnmount");
   }
-
   render() {
     let product = null;
     if (this.state.showProduct) {
       product = (
         <div className="list">
-         {
-          this.state.products.map((item , index)=>{return <Product key={item.id} Productitem={item} deleteBtn={this.deleteBtn} />})
-         }
+          {
+            <ProductList
+              products={this.state.products}
+              changeTitleHandler={this.changeTitleHandler}
+              deleteBtn={this.deleteBtn}
+            />
+          }
         </div>
       );
     }
 
-    return (  
+    return (
       <div className="app">
-        <h2>BookStore</h2>
-        <button className="btn-app" onClick={this.toggle}>
-          show/hide
+        <button onClick={() => this.setState({ showMain: false })}>
+          Remove main
         </button>
+        {this.state.showMain ? (
+          <Main toggle={this.toggle} products={this.state.products} />
+        ) : null}
         {product}
       </div>
     );
