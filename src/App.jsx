@@ -2,6 +2,7 @@ import React from "react";
 import "./App.css";
 import Main from "./compopnent/Main/Main";
 import ProductList from "./compopnent/ProductList/ProductList";
+import Authentication from "./compopnent/Context/Authentication";
 
 class App extends React.Component {
   state = {
@@ -24,7 +25,7 @@ class App extends React.Component {
     ],
     showProduct: false,
     showMain: true,
-    auth : false
+    auth: false,
   };
   toggle = () => {
     const show = this.state.showProduct;
@@ -51,9 +52,10 @@ class App extends React.Component {
     console.log("componentWillUnmount");
   }
 
-  loginHandler = ()=>{
-    this.setState({auth : true})
-  }
+  loginHandler = () => {
+    this.setState({ auth: true });
+  };
+
   render() {
     let product = null;
     if (this.state.showProduct) {
@@ -64,7 +66,6 @@ class App extends React.Component {
               products={this.state.products}
               changeTitleHandler={this.changeTitleHandler}
               deleteBtn={this.deleteBtn}
-     
             />
           }
         </div>
@@ -73,13 +74,20 @@ class App extends React.Component {
 
     return (
       <div className="app">
-        <button className="btn-app" onClick={() => this.setState({ showMain: false })}>
+        <button
+          className="btn-app"
+          onClick={() => this.setState({ showMain: false })}
+        >
           Remove main
         </button>
-        {this.state.showMain ? (
-          <Main toggle={this.toggle} products={this.state.products} loginHandler={this.loginHandler} isAuth={this.state.auth} />
-        ) : null}
-        {product}
+        <Authentication.Provider
+          value={{ isAuth: this.state.auth, logIn: this.loginHandler }}
+        >
+          {this.state.showMain ? (
+            <Main toggle={this.toggle} />
+          ) : null}
+          {product}
+        </Authentication.Provider>
       </div>
     );
   }
